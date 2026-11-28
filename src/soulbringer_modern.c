@@ -18,7 +18,7 @@
  * patched, and only after the original bytes have been verified.
  */
 
-#define SBM_VERSION "0.2.0-dev"
+#define SBM_VERSION "0.2.0-beta.1"
 
 typedef unsigned int   DWORD;
 typedef int            BOOL;

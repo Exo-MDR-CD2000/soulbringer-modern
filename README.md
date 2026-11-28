@@ -2,7 +2,7 @@
 
 Fixes that make **Soulbringer** (Gremlin Interactive / Infogrames, 2000) play properly on modern Windows PCs and widescreen monitors. It's a mod, not a source port: it adds a small drop-in DLL to your own copy of the game and leaves the game's files untouched.
 
-> **Status: 0.2.0 in development.** Latest release: 0.1.1 (widescreen world). In the development build, menus are pillarboxed, the HUD has proper proportions with selectable layouts and reacts where it is drawn, and all text is enlarged and redrawn sharp, with sizes by category in a simplified settings file. Development targets 4K (3840×2160, 16:9). See the [roadmap](docs/ROADMAP.md) and [changelog](CHANGELOG.md).
+> **Status: 0.2.0 in development.** Latest build: 0.2.0-beta.1 (pre-release, on the Releases page); latest full release: 0.1.1 (widescreen world). In the 0.2.0 builds, menus are pillarboxed, the HUD has proper proportions with selectable layouts and reacts where it is drawn, and all text is enlarged and redrawn sharp, with sizes by category in a simplified settings file. Development targets 4K (3840×2160, 16:9). See the [roadmap](docs/ROADMAP.md) and [changelog](CHANGELOG.md).
 
 ## Features
 
@@ -10,14 +10,14 @@ Fixes that make **Soulbringer** (Gremlin Interactive / Infogrames, 2000) play pr
 |---|---|---|
 | ✅ | **Native widescreen (Hor+)**: the world is drawn with correct proportions at any aspect ratio (16:9, 16:10, 21:9…). You see more on the sides instead of a stretched image. | 0.1.0 |
 | ✅ | Mouse picking stays accurate in widescreen. | 0.1.0 |
-| ✅ | Aspect-ratio cap (`MaxAspect`): on screens wider than the cap, the game is pillarboxed to the cap with the HUD at its edges. A safety net for ultrawide screens (not yet tested on a real ultrawide monitor). | 0.2.0-dev |
-| ✅ | Optional settings file, plus a developer log for reverse-engineering: automatic capture of every new screen, hover/tooltip and click events (including in-game DirectInput clicks), the game's text decoded back into words, F11 screenshots paired with a frame capture. | 0.1.0 – 0.2.0-dev |
-| ✅ | Full-screen menus (main menu, options, inventory, character…) at their native 4:3 shape, centered with black bars. | 0.2.0-dev |
-| ✅ | HUD layouts (`Hud`): **split** (bottom bar bottom-center, action column at the right edge), **right** (whole HUD in the bottom-right corner), **center**, or the original **stretched**. All correctly proportioned. | 0.2.0-dev |
-| ✅ | Larger mouse cursor (`CursorSize`). | 0.2.0-dev |
-| ✅ | Mouse hover and clicks on the moved HUD mapped correctly: the game is told the HUD button under the mouse at its original position, the cursor is drawn where the mouse is. Confirmed in game with `split` and `right`. | 0.2.0-dev |
-| ✅ | Readable text everywhere: the game lays out all its text at a larger size itself (lines wrap, boxes grow), with one size for all text and optional sizes by category (menus, screens, in-game) and by screen or area (main menu, options, conversations, HUD labels, messages…). | 0.2.0-dev |
-| ✅ | Every game font redrawn sharp in the game's own colours (`[Fonts] All=Sharp`): names, tooltips and journal from Soulbringer Text, menus and conversations from Soulbringer Uncial, interface text and combat numbers from Montserrat ExtraBold, credits from Soulbringer Credits. Per font: `Original`, an alternative (Cardo, MedievalSharp), or a font file of your own for names and menus. | 0.2.0-dev |
+| ✅ | Aspect-ratio cap (`MaxAspect`): on screens wider than the cap, the game is pillarboxed to the cap with the HUD at its edges. A safety net for ultrawide screens (not yet tested on a real ultrawide monitor). | 0.2.0-beta.1 |
+| ✅ | Optional settings file, plus a developer log for reverse-engineering: automatic capture of every new screen, hover/tooltip and click events (including in-game DirectInput clicks), the game's text decoded back into words, F11 screenshots paired with a frame capture. | 0.1.0 – 0.2.0-beta.1 |
+| ✅ | Full-screen menus (main menu, options, inventory, character…) at their native 4:3 shape, centered with black bars. | 0.2.0-beta.1 |
+| ✅ | HUD layouts (`Hud`): **split** (bottom bar bottom-center, action column at the right edge), **right** (whole HUD in the bottom-right corner), **center**, or the original **stretched**. All correctly proportioned. | 0.2.0-beta.1 |
+| ✅ | Larger mouse cursor (`CursorSize`). | 0.2.0-beta.1 |
+| ✅ | Mouse hover and clicks on the moved HUD mapped correctly: the game is told the HUD button under the mouse at its original position, the cursor is drawn where the mouse is. Confirmed in game with `split` and `right`. | 0.2.0-beta.1 |
+| ✅ | Readable text everywhere: the game lays out all its text at a larger size itself (lines wrap, boxes grow), with one size for all text and optional sizes by category (menus, screens, in-game) and by screen or area (main menu, options, conversations, HUD labels, messages…). | 0.2.0-beta.1 |
+| ✅ | Every game font redrawn sharp in the game's own colours (`[Fonts] All=Sharp`): names, tooltips and journal from Soulbringer Text, menus and conversations from Soulbringer Uncial, interface text and combat numbers from Montserrat ExtraBold, credits from Soulbringer Credits. Per font: `Original`, an alternative (Cardo, MedievalSharp), or a font file of your own for names and menus. | 0.2.0-beta.1 |
 | 🔜 | Conversation screen layout. | planned (0.2) |
 | 🔜 | EAX 2.0 environmental audio through [DSOAL](https://github.com/kcat/dsoal) (the game ships EAX data, but it can't be used on modern Windows). | planned, last |
 
@@ -59,10 +59,10 @@ The installer renames the game's renderer `D3d7Lib.dll` to `D3d7Lib_orig.dll` an
 ## Known issues
 
 - **0.1.1 (release):** the UI, HUD and menus are still stretched horizontally.
-- **0.2.0-dev:** the moved HUD reacts where it is drawn. On the world beside the centered bar or left of the column, clicks act slightly above the bar line or left of the column line (the game still has its HUD there; a possible fix is in the roadmap). If the cursor misbehaves over the HUD, `[Debug] HudMouse=0` turns the mapping off.
-- **0.2.0-dev, text sizes:** some text has no setting of its own yet and follows its category's `All` (e.g. the quit dialog follows `[Text.Menus] All`, interface text not identified yet follows `[Text.Screens] All`). Fixed panels such as the options menu can cut off text that is too large. The character stats, Encumbrance and stack counts share one size (`[Text.Screens] Character`).
+- **0.2.0-beta.1:** the moved HUD reacts where it is drawn. On the world beside the centered bar or left of the column, clicks act slightly above the bar line or left of the column line (the game still has its HUD there; a possible fix is in the roadmap). If the cursor misbehaves over the HUD, `[Debug] HudMouse=0` turns the mapping off.
+- **0.2.0-beta.1, text sizes:** some text has no setting of its own yet and follows its category's `All` (e.g. the quit dialog follows `[Text.Menus] All`, interface text not identified yet follows `[Text.Screens] All`). Fixed panels such as the options menu can cut off text that is too large. The character stats, Encumbrance and stack counts share one size (`[Text.Screens] Character`).
 - `MaxAspect` hasn't been tested on a real ultrawide monitor yet.
-- **0.2.0-dev, resolutions:** development targets 3840×2160 (16:9) and only that has been play-tested. The layout, HUD clicks and tooltips are computed from the screen size and checked offline at 16:9, 16:10 and 21:9; an in-game pass at 1080p, 1440p and 16:10 is planned for later. Aspect ratios wider than 16:10 (21:9, 32:9) are not a focus: they should work, or use `MaxAspect` to cap them.
+- **0.2.0-beta.1, resolutions:** development targets 3840×2160 (16:9) and only that has been play-tested. The layout, HUD clicks and tooltips are computed from the screen size and checked offline at 16:9, 16:10 and 21:9; an in-game pass at 1080p, 1440p and 16:10 is planned for later. Aspect ratios wider than 16:10 (21:9, 32:9) are not a focus: they should work, or use `MaxAspect` to cap them.
 - **Upgrade from 0.1.0:** 0.1.0 could crash on some PCs because the game loads its renderer twice. Install 0.1.1 or later. Just run the new `install.bat` over the old version.
 
 ## Uninstall
@@ -163,12 +163,15 @@ docs/RENDERER_API.md       the Stealth renderer plug-in interface
 docs/ROADMAP.md            what's next
 docs/TEXT_SCALING_PLAN.md  plan for readable text (step 3)
 CLAUDE.md                  working notes for AI-assisted development (build, test, deploy rules)
-release/                   built release zips (not committed; attach them to GitHub Releases)
+.github/workflows/         GitHub Actions: build, tests, release zip, draft release on a version tag
+release/                   built release zips (not committed; GitHub Actions attaches them to Releases)
 ```
 
 ## Versioning
 
-[Semantic versioning](https://semver.org). The version is `SBM_VERSION` in `src/soulbringer_modern.c`; development builds carry a `-dev` suffix. Every change is listed in [CHANGELOG.md](CHANGELOG.md) under the next version. A release is tagged `vX.Y.Z` and its zip (`./make_release.sh`) is attached to the GitHub release.
+[Semantic versioning](https://semver.org). The version is `SBM_VERSION` in `src/soulbringer_modern.c`; development builds carry a `-dev` suffix, test builds a pre-release suffix such as `-beta.1`. Every change is listed in [CHANGELOG.md](CHANGELOG.md) under the next version.
+
+Builds are made by GitHub Actions ([`.github/workflows/build.yml`](.github/workflows/build.yml)): every push to `main` and every pull request is built and tested, and the zip is kept as a workflow artifact. To release, set `SBM_VERSION` and push the tag `v<SBM_VERSION>` (e.g. `v0.2.0-beta.1`): the workflow builds the zip and creates a **draft** release with it (a pre-release if the version has a suffix), with the matching CHANGELOG section as notes, ready to publish on GitHub.
 
 ## Legal
 

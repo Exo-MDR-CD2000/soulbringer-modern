@@ -47,8 +47,8 @@ Target exe: `SoulbringeVCnoeax.exe` (GOG build, also sold on Steam). All address
 ## Build and test
 
 ```sh
-./build.sh                         # -> build/D3d7Lib.dll (clang -target i686-pc-windows-msvc, lld-link, no CRT)
-python3 tests/replay/replay.py     # must print ALL PASSED
+./build.sh                         # -> build/D3d7Lib.dll (clang -target i686-pc-windows-msvc, lld-link, no CRT); PYTHON=python if there is no python3
+CC=clang python3 tests/replay/replay.py   # must print ALL PASSED (CC = a native C compiler, default cc)
 ./make_release.sh                  # -> release/SoulbringerModern-<SBM_VERSION>.zip
 ```
 
@@ -112,4 +112,4 @@ The ini is organised by area: `[Display]`, `[Interface]`, `[Text]` + `[Text.Menu
 
 ## Versioning and releases
 
-Semantic versioning; `-dev` suffix between releases. Tag `vX.Y.Z`, attach the zip from `make_release.sh` to the GitHub release; `release/` is not committed. 0.1.0 is withdrawn (crash); 0.1.1 is the current release.
+Semantic versioning; `-dev` suffix between releases, `-beta.N` for test builds. Release: set `SBM_VERSION`, update CHANGELOG, push the tag `v<SBM_VERSION>`; GitHub Actions (`.github/workflows/build.yml`) builds, runs the offline tests and creates a **draft** release with the zip (pre-release when the version has a suffix; notes from the CHANGELOG section of the base version); the user publishes it. The workflow fails on a tag that differs from `SBM_VERSION`. Every push to `main` is built too (zip as a workflow artifact). `release/` is not committed. Zips built locally for testing are copied to `C:\Users\ExoJag\Documents\soulbringer-github\` (user, 2026-11-28). 0.1.0 is withdrawn (crash); 0.1.1 is the last full release (not on the Releases page); 0.2.0-beta.1 (2026-11-28) is the first build released through Actions.

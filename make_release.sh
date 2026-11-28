@@ -17,6 +17,6 @@ mkdir -p "$OUT/SoulbringerModern/fonts"
 cp dist/fonts/Cardo-Bold.ttf dist/fonts/Cardo-OFL.txt dist/fonts/Montserrat-ExtraBold.ttf dist/fonts/Montserrat-OFL.txt \
    dist/fonts/SoulbringerUncial-Regular.ttf dist/fonts/SoulbringerUncial-OFL.txt dist/fonts/MedievalSharp-Regular.ttf dist/fonts/MedievalSharp-OFL.txt dist/fonts/SoulbringerText-Regular.ttf dist/fonts/SoulbringerText-OFL.txt dist/fonts/SoulbringerCredits-Regular.ttf dist/fonts/SoulbringerCredits-OFL.txt "$OUT/SoulbringerModern/fonts/"   # HD fonts (SIL OFL: licence travels with the font)
 cp dist/install.bat dist/uninstall.bat dist/SoulbringerModern.ini "$OUT/"
-sed 's/$/\r/' dist/README.txt > "$OUT/README.txt"
-(cd "$OUT" && python3 -c "import zipfile,os;z=zipfile.ZipFile('../SoulbringerModern-$VER.zip','w',zipfile.ZIP_DEFLATED);[z.write(os.path.join(r,f),os.path.relpath(os.path.join(r,f),'.')) for r,_,fs in os.walk('.') for f in fs];z.close()")
+sed 's/\r*$/\r/' dist/README.txt > "$OUT/README.txt"   # CRLF once, whether the checkout has LF or CRLF
+(cd "$OUT" && "${PYTHON:-python3}" -c "import zipfile,os;z=zipfile.ZipFile('../SoulbringerModern-$VER.zip','w',zipfile.ZIP_DEFLATED);[z.write(os.path.join(r,f),os.path.relpath(os.path.join(r,f),'.')) for r,_,fs in os.walk('.') for f in fs];z.close()")
 echo "packaged release/SoulbringerModern-$VER.zip"

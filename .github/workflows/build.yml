@@ -1,0 +1,84 @@
+# Builds D3d7Lib.dll, runs the offline tests and packages the release zip.
+# - every push to main and every pull request: build + tests, zip kept as a workflow artifact
+# - a pushed tag vX.Y.Z (or vX.Y.Z-beta.N): the same, then a DRAFT GitHub release with the zip
+#   (marked pre-release when the version has a suffix); publish it on GitHub after a look
+# The tag must equal SBM_VERSION in src/soulbringer_modern.c (with a leading v).
+# Tests that need game data (fonts, executables) are skipped here: run them locally with SBM_GAME_DIR.
+name: Build
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write   # create the draft release on tags
+
+jobs:
+  build:
+    runs-on: windows-latest   # LLVM (clang, lld-link, llvm-dlltool) is preinstalled
+    defaults:
+      run:
+        shell: bash
+    env:
+      PYTHON: python
+      CC: clang
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Tools
+        run: |
+          echo "C:\Program Files\LLVM\bin" >> "$GITHUB_PATH"
+          export PATH="/c/Program Files/LLVM/bin:$PATH"
+          clang --version | head -1
+          lld-link --version
+          llvm-dlltool --version | head -2 || true
+
+      - name: Version
+        id: ver
+        run: |
+          VER=$(sed -n 's/^#define SBM_VERSION "\(.*\)"/\1/p' src/soulbringer_modern.c)
+          echo "Version $VER"
+          echo "version=$VER" >> "$GITHUB_OUTPUT"
+          if [ "${GITHUB_REF_TYPE}" = "tag" ] && [ "${GITHUB_REF_NAME}" != "v$VER" ]; then
+            echo "::error::tag ${GITHUB_REF_NAME} does not match SBM_VERSION $VER (expected v$VER)"
+            exit 1
+          fi
+
+      - name: Tests
+        run: $PYTHON tests/replay/replay.py
+
+      - name: Build and package
+        run: sh ./make_release.sh
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SoulbringerModern-${{ steps.ver.outputs.version }}-${{ github.sha }}
+          path: release/SoulbringerModern-${{ steps.ver.outputs.version }}.zip
+          if-no-files-found: error
+
+      - name: Draft release
+        if: github.ref_type == 'tag'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VER: ${{ steps.ver.outputs.version }}
+        run: |
+          BASE=${VER%%-*}   # 0.2.0-beta.1 -> 0.2.0: the CHANGELOG section that holds its changes
+          {
+            echo "Extract the zip into your Soulbringer folder (the one with SoulbringeVC.exe) and run install.bat."
+            echo "The game must already run on your PC (most systems need DDrawCompat). See the README for details."
+            echo
+            awk -v v="$BASE" '
+              /^## / { if (on) exit; if (index($0, "## " v " ") == 1 || $0 == "## " v) { on = 1; next } }
+              on' CHANGELOG.md
+          } > notes.md
+          PRE=""
+          case "$VER" in *-*) PRE="--prerelease" ;; esac
+          gh release create "$GITHUB_REF_NAME" "release/SoulbringerModern-$VER.zip" \
+            --draft $PRE --title "Soulbringer Modern $VER" --notes-file notes.md
