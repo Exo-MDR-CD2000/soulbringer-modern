@@ -1,0 +1,22 @@
+# build output and packaged releases (attach zips to GitHub Releases instead)
+build/
+release/
+*.zip
+*.obj
+*.lib
+*.exp
+__pycache__/
+tests/replay/harness
+tests/replay/harness.exe
+
+# logs from the game folder; recorded test sessions are kept
+*.log
+!tests/data/*.log
+tests/data/*_replay/
+tests/data/*_replay_*/
+*_captures/
+
+# never commit game files
+*.exe
+D3d7Lib_orig.dll
+D3d7Lib.dll
