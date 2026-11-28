@@ -1,0 +1,48 @@
+# HUD buttons, in the game's own canvas units (640x480, original stretched
+# layout: where the game hit-tests). The same file serves every HudLayout and
+# aspect cap; replay.py maps clicks back with ui_hud_aim().
+#
+# Source: screenshot SBM_10964_001 (3840x2160, split) measured and mapped
+# back to canvas (bar: canvas = (x - 480) / 4.5; column: canvas =
+# (3840 - (3840 - x) / 0.75) / 6; y / 4.5), HP/mana bars exact from frame
+# capture 6 (0x004B686A m=4D). Names from the game's tooltips (session
+# 10964 screenshots 1-8, 15) where hovered; column names from the icons.
+# Orb edges are approximate (+-2 canvas px).
+#
+# name                x0     y0     x1     y1
+# ---- bottom bar, left to right
+compass              22.2  408.9   85.6  473.3   # tooltip "Compass"
+inventory            94.4  420.0  144.4  474.4   # tooltip "Inventory screen"
+hit-points          162.7  431.3  288.9  446.9   # tooltip "Hit Points 100/100"; fill exact from capture, right end = frame
+mana-points         162.7  455.8  288.9  471.3   # tooltip "Mana Points 100/100"
+options             297.8  420.0  346.7  474.4   # tooltip "Options screen"
+enemy               348.9  427.8  483.3  447.8   # tooltip "Enemy"
+enemy-hit-points    348.9  452.2  483.3  472.2   # tooltip "Hit Points"
+character           496.7  420.0  547.8  474.4   # tooltip "Character screen" (portrait)
+right-orb           555.6  408.9  618.9  473.3   # locked: becomes interactable later in the game (name/tooltip unknown until then)
+# ---- right column, top to bottom
+weapon-prev         547.8    8.9  566.7   41.1   # "<" arrow
+weapon              566.7    8.9  612.2   41.1   # current weapon
+weapon-next         612.2    8.9  631.1   41.1   # ">" arrow
+potion              545.6   51.1  572.2   71.1   # icons, row 1
+spell               575.6   51.1  602.2   71.1
+ranged              606.7   51.1  633.3   71.1
+melee               545.6   74.4  572.2   94.4   # icons, row 2 (weapon box tile m=4B: 543.3-570.8 x 73.1-93.8)
+food                575.6   74.4  602.2   94.4
+help                606.7   74.4  633.3   94.4
+move-1-cut          540.0  100.0  633.3  116.4   # move slots (labels as shown: CUT, CUT LOW, COMBO)
+move-2-cut-low      540.0  116.9  633.3  133.3
+move-3              540.0  134.2  633.3  150.2
+move-4              540.0  151.1  633.3  167.1
+move-5              540.0  168.0  633.3  184.0
+combo               540.0  188.9  633.3  208.9
+slot-1              540.0  215.6  633.3  234.2
+slot-2              540.0  234.2  633.3  252.9
+slot-3              540.0  252.9  633.3  271.6
+slot-4              540.0  271.6  633.3  290.2
+slot-5              540.0  290.2  633.3  308.9
+slot-6              540.0  308.9  633.3  327.6
+slot-7              540.0  327.6  633.3  346.2
+slot-8              540.0  346.2  633.3  364.9
+slot-9              540.0  364.9  633.3  383.6
+slot-10             540.0  383.6  633.3  402.2

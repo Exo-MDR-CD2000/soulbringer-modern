@@ -1,0 +1,23 @@
+LIBRARY KERNEL32.dll
+EXPORTS
+LoadLibraryA@4
+GetProcAddress@8
+GetModuleFileNameA@12
+CreateFileA@28
+WriteFile@20
+ReadFile@20
+FlushFileBuffers@4
+CloseHandle@4
+GetTickCount@0
+GetCurrentThreadId@0
+IsBadReadPtr@8
+ExitProcess@4
+VirtualProtect@16
+FlushInstructionCache@12
+GetCurrentProcess@0
+GetPrivateProfileIntA@16
+GetCurrentProcessId@0
+GetLocalTime@4
+GetPrivateProfileStringA@24
+VirtualAlloc@16
+SetFilePointer@16
